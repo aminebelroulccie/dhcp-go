@@ -1,0 +1,8 @@
+
+- src: git+https://gitlab.com/mergetb/ansible/nex
+  name: nex
+  version: master
+
+- src: git+https://gitlab.com/mergetb/ansible/etcd
+  name: etcd
+  version: master

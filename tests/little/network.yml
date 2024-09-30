@@ -1,0 +1,28 @@
+- hosts: cx
+  become: true
+  tasks:
+
+    - nclu:
+        commands:
+          - add int swp1
+          - add int swp2
+          - add int swp3
+          - add int swp4
+          - add int swp5
+          - add int swp6
+          - add bridge bridge ports swp1-6
+        atomic: true
+
+- hosts: server
+  become: true
+  tasks:
+
+    - blockinfile:
+        path: /etc/network/interfaces
+        block: |
+          auto eth1
+          iface eth1 inet static
+            address 10.0.0.1/24
+
+    - shell: ifup eth1
+

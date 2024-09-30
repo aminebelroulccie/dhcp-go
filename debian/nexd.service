@@ -1,0 +1,10 @@
+[Unit]
+Description=nexd
+Documentation=https://gitlab.com/mergetb/tech/nex
+
+[Service]
+ExecStart=/usr/bin/nexd
+
+[Install]
+WantedBy=multi-user.target
+

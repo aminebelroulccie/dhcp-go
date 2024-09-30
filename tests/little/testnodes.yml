@@ -1,0 +1,19 @@
+- hosts: [c0, c1, c2, c3]
+  become: true
+  strategy: free
+  tasks:
+
+    - name: install python libs
+      apt:
+        name: 
+          - python3-pip
+          - python3-setuptools
+        state: present
+
+    - name: install python libs for testing
+      pip:
+        name: 
+          - avocado-framework
+          - netifaces
+          - dnspython
+

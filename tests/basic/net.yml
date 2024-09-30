@@ -1,0 +1,23 @@
+# nex basic config
+
+kind:         Network
+name:         basic
+subnet4:      10.0.0.0/24
+gateways:     [10.0.0.1]
+nameservers:  [10.0.0.1]
+dhcp4server:  10.0.0.1
+domain:       basic.net
+
+---
+kind:   MemberList
+net:    basic
+list:
+- mac:  00:00:11:11:00:01
+  name: tango
+  ip4:  
+    address: 10.0.0.10
+- mac:  00:00:22:22:00:02
+  name: foxtrot
+  ip4:  
+    address: 10.0.0.11
+

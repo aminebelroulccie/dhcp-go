@@ -1,0 +1,83 @@
+kind: Network
+name: internal
+subnet4: 10.0.0.0/16
+gateways: [10.0.0.1]
+nameservers: [10.0.0.1]
+dhcp4server: 10.0.0.1
+domain: internal.hypermuffin
+
+---
+kind: MemberList
+net: internal
+list:
+- mac: ce:3a:4d:c2:48:47
+  ip4: 10.0.1.1
+  name: blueberry.internal.hypermuffin
+- mac: ce:3a:4d:c2:48:74
+  ip4: 10.0.1.99
+  name: blackberry.internal.hypermuffin
+
+---
+kind: Network
+name: pxeboot
+subnet4: 10.1.0.0/16
+range4: 
+  begin: 10.1.0.11
+  end:   10.1.254.254
+nameservers: [10.1.0.1]
+gateways: [10.1.0.1]
+dhcp4server: 10.1.0.1
+domain: pxe.hypermuffin
+
+---
+kind: MemberList
+net: pxeboot
+members:
+- mac: 00:00:99:10:00:01
+- mac: 00:00:99:22:00:11
+- mac: 00:00:99:AB:00:CA
+- mac: 00:00:00:00:00:99
+  name: onie-server
+
+
+---
+kind: Network
+name: embedded
+subnet4: 10.2.0.0/16
+range4:  
+  begin: 10.2.0.11 
+  end:   10.2.254.254
+gateways: [10.2.0.1]
+nameservers: [10.2.0.1]
+dhcp4server: 10.2.0.1
+domain: embedded.hypermuffin
+
+---
+kind: MemberList
+net: embedded
+members:
+  - mac: 00:00:77:44:aa:aa
+    name: jetson0
+  - mac: 00:00:77:44:bb:bb
+    name: jetson1
+  - mac: 00:00:77:44:cc:cc
+    name: jetson2
+
+---
+kind: Network
+name: vms
+subnet4: 10.3.0.0/16
+range4:  
+  begin: 10.3.0.11
+  end:   10.3.5.253
+gateways: [10.3.0.1]
+nameservers: [10.3.0.1]
+dhcp4server: 10.3.0.1
+domain: virtual.hypermuffin
+macrange: 
+  begin: 00:00:44:77:00:00 
+  end: 00:00:44:77:FF:FF
+
+
+
+

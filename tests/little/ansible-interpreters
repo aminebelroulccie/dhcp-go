@@ -1,0 +1,7 @@
+[py3]
+server ansible_python_interpreter=/usr/bin/python3
+db ansible_python_interpreter=/usr/bin/python3
+c0 ansible_python_interpreter=/usr/bin/python3
+c1 ansible_python_interpreter=/usr/bin/python3
+c2 ansible_python_interpreter=/usr/bin/python3
+c3 ansible_python_interpreter=/usr/bin/python3

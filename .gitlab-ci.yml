@@ -1,0 +1,99 @@
+variables:
+  ROOT: /tmp/ci/nex/$CI_COMMIT_SHA
+  TOOL_ARGS: apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes
+  GIT_SUBMODULE_STRATEGY: recursive
+
+stages:
+  - build
+  - basic
+  - little
+  - pkg-publish
+
+build:
+  stage: build
+  image: debian:bullseye
+  variables:
+  before_script:
+    - apt-get update
+    - apt-get install -y devscripts dpkg-sig gnupg curl
+    - mk-build-deps --install --tool="$TOOL_ARGS" debian/control
+    - ./build-deb.sh
+  script:
+    - go mod vendor
+    - make distclean
+    - make
+
+    - rm -rf coredns
+    - git submodule init
+    - git submodule update
+    - cd coredns
+    - make clean
+    - make
+    - cp coredns ../build/
+    - cd ..
+
+    - ./build-deb.sh
+  artifacts:
+    paths:
+      - build/*
+  tags:
+    - buster
+    - merge
+    - docker
+
+test-basic:
+  stage: basic
+  dependencies:
+    - build
+  script:
+    - cd tests/basic
+    - sudo ./run.sh
+  after_script:
+    - cd tests/basic
+    - sudo rvn destroy
+  tags:
+    - merge
+    - shell
+
+
+test-little:
+  stage: little
+  dependencies:
+    - build
+  script:
+    - here=`pwd`
+    - cd tests/little/test
+    - sudo ./run.sh
+    - cd $here
+    - sudo chown gitlab-runner:gitlab-runner -R .
+  after_script:
+    - here=`pwd`
+    - cd tests/little
+    - sudo rvn destroy
+    - cd $here
+    - sudo chown gitlab-runner:gitlab-runner -R /home/gitlab-runner
+  tags:
+    - merge
+    - shell
+
+pkg-publish:
+  stage: pkg-publish
+  image: debian:bullseye
+  before_script:
+    - apt-get update
+    - apt-get install -y devscripts dpkg-sig gnupg curl
+    - 'curl -L https://gitlab.com/mergetb/devops/pkg/raw/master/add-deb.sh > add-deb.sh'
+    - 'chmod +x add-deb.sh'
+    - echo $MERGETB_GPG_KEY | base64 -di | gpg --import
+    - echo $MERGETB_GPG_PUBKEY | base64 -di | gpg --import
+  script: 
+    - find . -name "*.deb" | xargs -n 1 dpkg-sig -k $MERGETB_GPG_KEY_ID --sign builder
+    - find . -name "*.deb" | RELEASE=buster xargs -n 1 ./add-deb.sh
+    - find . -name "*.deb" | RELEASE=bullseye xargs -n 1 ./add-deb.sh
+  dependencies:
+    - build
+  only:
+    - tags
+  tags:
+    - merge
+    - docker

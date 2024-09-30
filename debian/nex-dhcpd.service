@@ -1,0 +1,10 @@
+[Unit]
+Description=nex-dhcpd
+Documentation=https://gitlab.com/mergetb/tech/nex
+
+[Service]
+ExecStart=/usr/bin/nex-dhcpd
+
+[Install]
+WantedBy=multi-user.target
+

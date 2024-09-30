@@ -1,0 +1,19 @@
+# The default nex config file
+
+# To listen on a specific interface, uncomment below and fill in interface
+dhcpd:
+   interface: host
+
+# By default we look for a local unsecured etcd. TLS config is available through
+# commented items below with keys appropriate to your environment.
+etcd:
+  host:   localhost
+  port:   2379
+  #cert:   /etc/nex/db.pem
+  #key:    /etc/nex/db-key.pem
+  #cacert: /etc/nex/ca.pem
+
+
+# By default the nexd configuration daemon listens on all addresses on port 6000
+nexd:
+  listen: 0.0.0.0:6000

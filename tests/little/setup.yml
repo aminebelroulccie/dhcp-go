@@ -1,0 +1,72 @@
+- hosts: db
+  become: true
+  tasks:
+
+    - import_role:
+        name: etcd
+      vars:
+        keygen: yes
+        server: yes
+        alias: db
+        ip: "{{ansible_eth0.ipv4.address}}"
+        address: localhost
+        auth_hosts: [db, 127.0.0.1]
+        hosts:
+          - alias: db
+            endpoint: db=https://localhost:2380
+
+    - fetch:
+        src: /etc/etcd/{{item}}
+        dest: ./{{item}}
+        flat: yes
+      loop:
+        - db.pem
+        - db-key.pem
+        - ca.pem
+
+
+- hosts: server
+  become: true
+  tasks:
+
+    - file:
+        path: /etc/nex
+        state: directory
+
+    - copy:
+        src: ./{{item}}
+        dest: /etc/nex/{{item}}
+      loop:
+        - db.pem
+        - db-key.pem
+        - ca.pem
+
+    - import_role:
+        name: nex
+      vars:
+        domain: mini.net
+        interface: eth1
+
+    - name: use build bins
+      copy:
+        src: ../../build/{{item.src}}
+        dest: /usr/bin/{{item.dest}}
+      loop:
+        - {src: nexc, dest: nex}
+        - {src: nexd, dest: nexd}
+        - {src: nex-dhcpd, dest: nex-dhcpd}
+        - {src: coredns, dest: coredns}
+
+    - name: restart services
+      service:
+        name: "{{item}}"
+        state: restarted
+      loop:
+        - nexd
+        - nex-dhcpd
+        - coredns
+
+
+    - shell: nex apply /tmp/nex/tests/little/networks/static.yml 
+    - shell: nex apply /tmp/nex/tests/little/networks/macs.yml 
+

@@ -1,0 +1,13 @@
+kind:         Network
+name:         all
+subnet4:      10.0.0.0/24
+gateways:     [10.0.0.1]
+nameservers:  [10.0.0.1]
+dhcp4server:  10.0.0.1
+domain:       all.things
+mac_range:
+  begin: 00:00:00:00:00:00
+  end:   ff:ff:ff:ff:ff:ff
+range4:
+  begin: 10.0.0.10
+  end:   10.0.0.254

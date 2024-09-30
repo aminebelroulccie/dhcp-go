@@ -1,0 +1,7 @@
+basic {
+  nex
+}
+. {
+  forward . 8.8.8.8
+}
+

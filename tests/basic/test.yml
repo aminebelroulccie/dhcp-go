@@ -1,0 +1,6 @@
+- hosts: [tango, foxtrot]
+  become: true
+  tasks:
+
+    - name: run test utility
+      shell: /tmp/nex/build/basic-test {{inventory_hostname}}.basic

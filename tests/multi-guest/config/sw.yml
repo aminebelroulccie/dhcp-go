@@ -1,0 +1,36 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+
+    - name: set up interfaces
+      nclu:
+        commands:
+          - add bridge bridge ports swp1
+          - add bridge bridge ports swp2
+          - add bridge bridge ports swp3
+          - add bridge bridge ports swp4
+          - add bridge bridge ports swp5
+          - add bridge bridge ports swp6
+          - add bridge bridge ports swp7
+          - add bridge bridge ports swp8
+          - add bridge bridge ports swp9
+          - add bridge bridge ports swp10
+          - add bridge bridge ports swp11
+          - add bridge bridge ports swp12
+          - add bridge bridge ports swp13
+          - add interface swp1
+          - add interface swp2
+          - add interface swp3
+          - add interface swp4
+          - add interface swp5
+          - add interface swp6
+          - add interface swp7
+          - add interface swp8
+          - add interface swp9
+          - add interface swp10
+          - add interface swp11
+          - add interface swp12
+          - add interface swp13
+        atomic: true

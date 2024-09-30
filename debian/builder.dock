@@ -1,0 +1,15 @@
+FROM debian:bullseye
+
+RUN apt-get update
+RUN apt-get install -y \
+  devscripts \
+  dpkg-sig \
+  gnupg \
+  curl \
+  golang \
+  make \
+  protobuf-compiler
+
+WORKDIR /nex
+
+CMD build-deb.sh

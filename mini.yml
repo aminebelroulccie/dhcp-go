@@ -1,0 +1,42 @@
+kind:         Network
+name:         mini
+subnet4:      192.168.14.0/24
+gateways:     [192.168.14.1]
+nameservers:  [8.8.8.8]
+dhcp4server:  192.168.14.1
+domain:       mini.net
+excluded: ["192.168.14.1","192.168.14.2"]
+# mac_range:
+#   begin: 00:00:00:00:00:00
+#   end:   ff:ff:ff:ff:ff:ff
+range4:
+  begin: 192.168.14.1
+  end:   192.168.14.254
+siaddr: 192.168.14.1
+# ---
+# kind:         Network
+# name:         mini2
+# subnet4:      192.168.15.0/24
+# gateways:     [192.168.15.1]
+# nameservers:  [8.8.8.8]
+# dhcp4server:  192.168.15.1
+# domain:       mini2.net
+# mac_range:
+#   begin: 00:00:00:00:00:00
+#   end:   ff:ff:ff:ff:ff:ff
+# range4:
+#   begin: 192.168.15.10
+#   end:   192.168.15.254
+# siaddr: 192.168.15.1
+# ---
+# kind:   MemberList
+# net:    mini1
+# list:
+# - mac:  d6:23:41:5a:7a:7d
+#   name: whiskey
+# ---
+# kind:   MemberList
+# net:    mini2
+# list:
+# - mac:  ca:f6:7b:47:8e:0d
+#   name: whiskey

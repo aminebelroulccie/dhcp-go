@@ -1,0 +1,31 @@
+# nex mini config
+
+kind:                 Network
+name:                 static
+subnet4:              10.0.0.0/24
+gateways:             [10.0.0.1]
+nameservers:          [10.0.0.1]
+dhcp4server:          10.0.0.1
+domain:               mini.net
+lease_duration:       20 
+
+
+---
+kind:   MemberList
+net:    static
+list:
+- mac:  00:00:11:11:00:01
+  name: whiskey
+  ip4:  
+    address: 10.0.0.10
+
+- mac:  00:00:22:22:00:01
+  name: tango
+  ip4:  
+    address: 10.0.0.11
+
+- mac:  00:00:33:33:00:01
+  name: foxtrot
+  ip4:  
+    address: 10.0.0.12
+

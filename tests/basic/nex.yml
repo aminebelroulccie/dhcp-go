@@ -1,0 +1,9 @@
+dhcpd:
+  interface: eth1
+
+etcd:
+  host:   localhost
+  port:   2379
+
+nexd:
+  listen: 0.0.0.0:6000

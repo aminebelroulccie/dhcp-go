@@ -1,0 +1,13 @@
+[Unit]
+Description=coredns
+Documentation=https://coredns.io
+After=network.target
+Wants=network-online.target
+
+[Service]
+Restart=always
+RestartSec=4
+ExecStart=/usr/bin/coredns -conf /etc/coredns/Corefile -dns.port 53
+
+[Install]
+WantedBy=multi-user.target

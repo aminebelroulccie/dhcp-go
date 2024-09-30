@@ -1,0 +1,15 @@
+---
+
+- name: install python libs
+  apt:
+    name:
+      - python-pip
+      - python-setuptools
+    state: present
+
+- name: install python libs for testing
+  pip:
+    name:
+      - avocado-framework
+      - netifaces
+      - dnspython

@@ -1,0 +1,27 @@
+# nex mini config
+
+kind:                 Network
+name:                 mini
+subnet4:              10.0.0.0/24
+gateways:             [10.0.0.1]
+nameservers:          [10.0.0.1]
+dhcp4server:          10.0.0.1
+domain:               mini.net
+lease_duration:       20 
+range4:
+  begin: 10.0.0.10
+  end:   10.0.0.254
+
+---
+kind:   MemberList
+net:    mini
+list:
+- mac:  00:00:11:11:00:01
+  name: whiskey
+
+- mac:  00:00:22:22:00:01
+  name: tango
+
+- mac:  00:00:33:33:00:01
+  name: foxtrot
+

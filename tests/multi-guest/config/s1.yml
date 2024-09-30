@@ -1,0 +1,17 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+    - name: configure ip address
+      shell: "{{ item }}"
+      with_items:
+        - ip addr add 10.0.0.2/24 dev eth1
+        - ip link set up dev eth1
+      when: ansible_eth1.ipv4 is not defined
+
+    - name: update /etc/hosts
+      blockinfile:
+        dest: /etc/hosts
+        block: "{{ lookup('file', './hosts') }}"
+

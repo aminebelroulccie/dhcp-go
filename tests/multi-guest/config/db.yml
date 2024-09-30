@@ -1,0 +1,60 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+    - name: configure ip address
+      shell: "{{ item }}"
+      with_items:
+        - ip addr add 10.0.0.3/24 dev eth1
+        - ip link set up dev eth1
+      when: ansible_eth1.ipv4 is not defined
+
+    - name: refresh facts
+      setup:
+
+    # etcd ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    - name: get etcd binaries
+      get_url:
+        url: https://github.com/coreos/etcd/releases/download/v3.2.11/etcd-v3.2.11-linux-amd64.tar.gz
+        dest: /tmp/etcd-v3.2.11-linux-amd64.tar.gz
+
+    - name: extract etcd binaries
+      unarchive:
+        src: /tmp/etcd-v3.2.11-linux-amd64.tar.gz
+        dest: /tmp/
+        remote_src: yes
+
+    - name: install etcd binaries
+      shell: mv /tmp/etcd-v3.2.11-linux-amd64/etcd* /usr/bin/
+
+    - name: set selinux permissions on etcd binaries
+      shell: chcon -t bin_t -r object_r -u system_u /usr/bin/etc*
+
+    - name: create etcd configuration dirs
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - /etc/etcd
+        - /var/lib/etcd
+
+    - name: add etcd service file
+      template:
+        src: etcd.service.j2
+        dest: /etc/systemd/system/etcd.service
+      vars:
+        hostname: "db"
+        ip: "{{ ansible_eth1.ipv4.address }}"
+        xname: "db"
+
+    - name: enable etcd
+      systemd:
+        name: etcd
+        enabled: yes
+        daemon_reload: yes
+
+    - name: start etcd
+      systemd:
+        name: etcd
+        state: restarted

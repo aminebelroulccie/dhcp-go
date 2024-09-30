@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+
+    - import_tasks: client-common.yml
+    
+    - name: set interface MAC
+      shell: ip link set addr 00:00:44:77:00:aa dev eth1
+

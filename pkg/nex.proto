@@ -1,0 +1,173 @@
+syntax = "proto3";
+package nex;
+option go_package = "gitlab.com/mergetb/tech/nex/pkg/nex";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+service Nex {
+
+  /* membership */
+  rpc GetMembers(GetMembersRequest) returns (GetMembersResponse);
+  rpc AddMembers(MemberList) returns (AddMembersResponse);
+  rpc DeleteMembers(DeleteMembersRequest) returns (DeleteMembersResponse);
+  rpc UpdateMembers(UpdateList) returns (UpdateMembersResponse);
+  rpc ChangeMemberID(ChangeList) returns (ChangeMemberIDResponse);
+
+  /* network */
+  rpc GetNetworks(GetNetworksRequest) returns (GetNetworksResponse);
+  rpc GetNetwork(GetNetworkRequest) returns (GetNetworkResponse);
+  rpc AddNetwork(AddNetworkRequest) returns (AddNetworkResponse);
+  rpc UpdateNetwork(NetworkUpdateRequest) returns (NetworkUpdateResponse);
+  rpc DeleteNetwork(DeleteNetworkRequest) returns (DeleteNetworkResponse);
+
+  /* interface */
+  rpc AddInterface (InterfaceRequest) returns (InterfaceResponse);
+  rpc DeleteInterface (InterfaceRequest) returns (InterfaceResponse);
+}
+
+/* interface ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+message InterfaceRequest {
+  string name = 1;
+}
+message InterfaceResponse {
+   
+};
+/* network ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+message Network {
+  string name = 1;
+  string subnet4 = 2;
+  string subnet6 = 3;
+  string dhcp4server = 4;
+  string dhcp6server = 5;
+  AddressRange range4 = 6;
+  AddressRange range6 = 7;
+  repeated string gateways = 8;
+  repeated string nameservers = 9;
+  repeated Option options = 10;
+  string domain = 11;
+  repeated string excluded = 12;
+  string siaddr = 13;
+  uint64 lease_duration = 14;
+}
+
+message NetworkUpdateRequest {
+  string name = 1;
+  google.protobuf.StringValue subnet4 = 2;
+  google.protobuf.StringValue subnet6 = 3;
+  google.protobuf.StringValue dhcp4server = 4;
+  google.protobuf.StringValue dhcp6server = 5;
+  AddressRange Range4 = 6;
+  AddressRange Range6 = 7;
+  repeated string gateways_present = 8;
+  repeated string gateways_absent = 9;
+  repeated string nameservers_present = 10;
+  repeated string nameservers_absent = 11;
+  repeated Option options_present = 12;
+  repeated Option options_absent = 13;
+  google.protobuf.StringValue domain = 14;
+  AddressRange macRange = 15;
+  google.protobuf.StringValue siaddr = 16;
+  google.protobuf.UInt64Value lease_duration = 17;
+}
+
+message NetworkUpdateResponse {}
+
+message AddressRange {
+  string begin = 1;
+  string end = 2;
+}
+
+message Option {
+  int32 number = 1;
+  string value = 2;
+}
+
+/* memberhsip ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+message AddMemberRequest {
+  string network = 1;
+  repeated string mac = 2;
+}
+message AddMemberResponse { }
+
+message DeleteMembersRequest {
+  string network = 1;
+  repeated string list = 2;
+}
+message DeleteMembersResponse { }
+
+message GetMembersRequest {
+  string network = 1;
+}
+message GetMembersResponse { 
+  repeated Member members = 1;
+}
+
+message Member {
+  string mac = 1;
+  string name = 2;
+  Lease ip4 = 3;
+  Lease ip6 = 4;
+  string net = 5;
+  string client_name = 6;
+}
+
+message Lease {
+  string address = 1;
+  google.protobuf.Timestamp expires = 2;
+}
+
+message MemberUpdate {
+  string mac = 1;
+  google.protobuf.StringValue name = 2;
+  Lease ip4 = 3;
+  Lease ip6 = 4;
+}
+
+message MemberList {
+  string net = 1;
+  repeated Member list = 2;
+  bool force = 3;
+}
+message AddMembersResponse {}
+
+message UpdateList {
+  string net = 1;
+  repeated MemberUpdate list = 2;
+}
+message UpdateMembersResponse {}
+
+message AddNetworkRequest {
+  Network network = 1;
+}
+message AddNetworkResponse {}
+
+message DeleteNetworkRequest {
+  string name = 1;
+}
+message DeleteNetworkResponse {}
+
+message GetNetworkRequest {
+  string name = 1;
+}
+message GetNetworkResponse {
+  Network net = 1;
+}
+
+message GetNetworksRequest {
+}
+message GetNetworksResponse {
+  //repeated Network nets = 1;
+  repeated string nets = 1;
+}
+
+message ChangeList{
+    string net = 1;
+    repeated IDChange list = 2;
+}
+
+message IDChange {
+    string old = 1;
+    string new = 2;
+}
+message ChangeMemberIDResponse {}

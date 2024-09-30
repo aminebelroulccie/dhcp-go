@@ -1,0 +1,62 @@
+# configure switch
+- hosts: cx
+  become: true
+  tasks:
+
+    - nclu:
+        commands:
+          - add int swp1
+          - add int swp2
+          - add int swp3
+          - add bridge bridge ports swp1-3
+        atomic: true
+
+# configure server
+- hosts: server
+  become: true
+  tasks:
+
+    - blockinfile:
+        path: /etc/network/interfaces
+        block: |
+          auto eth1
+          iface eth1 inet static
+            address 10.0.0.1/24
+
+    - shell: ifup eth1
+
+    - name: install etcd
+      apt:
+        update_cache: yes
+        name:
+          - etcd-client
+          - etcd-server
+
+    - name: install nex
+      shell: apt install {{item}}
+      loop:
+        - /tmp/nex/build/nex-server_*_amd64.deb
+        - /tmp/nex/build/nexctl_*_amd64.deb
+
+    - name: configure nex
+      copy:
+        src: nex.yml
+        dest: /etc/nex/nex.yml
+
+    - name: configure coredns
+      copy:
+        src: Corefile
+        dest: /etc/coredns/Corefile
+
+    - name: restart nex services
+      service:
+        name: "{{ item }}"
+        state: restarted
+      loop:
+        - nexd
+        - nex-dhcpd
+        - coredns
+
+    - name: create a nex network
+      shell: nex apply /tmp/nex/tests/basic/net.yml
+

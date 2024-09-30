@@ -1,0 +1,14 @@
+*.sw*
+build
+.rvn
+vendor
+
+
+roles
+*.retry
+
+tags
+.tools
+
+*.deb
+*.tar.gz

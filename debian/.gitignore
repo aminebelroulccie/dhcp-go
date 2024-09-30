@@ -1,0 +1,11 @@
+*.substvars
+files
+debhelper-build-stamp
+nex
+.debhelper
+*.debhelper
+*.debhelper.log
+tmp
+debian
+nexctl
+nex-server

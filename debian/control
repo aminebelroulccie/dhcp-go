@@ -1,0 +1,23 @@
+Source: nex
+Section: net
+Priority: optional
+Maintainer: Ryan Goodfellow <rgoodfel@isi.edu>
+Build-Depends:
+  make:native,
+  golang (>= 1.12),
+  protobuf-compiler
+Homepage: https://gitlab.com/mergetb/tech/nex
+
+Package: nex-server
+Architecture: any
+Priority: optional
+Description: The Nex DHCP/DNS server.
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+
+Package: nexctl
+Architecture: any
+Priority: optional
+Description: The Nex DHCP/DNS server CLI admin tool
+Depends: ${misc:Depends},
+         ${shlibs:Depends}

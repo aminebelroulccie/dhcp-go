@@ -1,0 +1,20 @@
+# nex mini config
+
+kind:         Network
+name:         static-macs
+subnet4:      10.0.0.0/24
+gateways:     [10.0.0.1]
+nameservers:  [10.0.0.1]
+dhcp4server:  10.0.0.1
+domain:       mini.net
+range4:
+  begin: 10.0.0.21
+  end:   10.0.0.30
+
+---
+kind:   MemberList
+net:    static-macs
+list:
+  - mac: 00:11:aa:00:00:01
+    name: alpha
+

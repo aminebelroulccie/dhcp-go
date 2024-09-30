@@ -1,0 +1,5 @@
+usr/bin/nexd
+usr/bin/nex-dhcpd
+usr/bin/coredns
+etc/nex/nex.yml
+

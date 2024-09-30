@@ -1,0 +1,20 @@
+#!/bin/bash
+
+#DEBHELPER#
+
+mkdir -p /etc/coredns
+
+domain=`hostname -d`
+
+if [[ $domain == "" ]]; then
+  domain="localdomain"
+fi
+
+cat << EOF > /etc/coredns/Corefile
+$domain {
+  nex
+}
+. {
+  forward . 8.8.8.8
+}
+EOF

@@ -1,0 +1,8 @@
+kind:         Network
+name:         test.net
+subnet4:      10.0.0.0/24
+gateways:     [10.0.0.1]
+nameservers:  [10.0.0.1]
+dhcp4server:  10.0.0.1
+domain:       test.net
+

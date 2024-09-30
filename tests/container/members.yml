@@ -1,0 +1,16 @@
+---
+kind:   MemberList
+net:    test.net
+list:
+- mac:  00:00:11:11:00:01
+  name: whiskey
+  ip4: { address: 10.0.0.1 }
+
+- mac:  00:00:22:22:00:01
+  name: tango
+  ip4: { address: 10.0.0.2 }
+
+- mac:  00:00:33:33:00:01
+  name: foxtrot
+  ip4: { address: 10.0.0.3 }
+

@@ -1,0 +1,21 @@
+nex (0.5.5-1) stable; urgency=medium
+
+  * Break up packages into client/server sub-packages.
+
+ -- Ryan Goodfellow <ry@mergetb.org>  Mon, 02 Mar 2020 00:47:00 +0300
+
+nex (0.5.5-0) stable; urgency=medium
+
+  * Unicast DHCP responses when possible
+
+ -- Ryan Goodfellow <ry@mergetb.org>  Sat, 01 Feb 2020 00:47:00 +0300
+
+nex (0.5.4-0) stable; urgency=medium
+
+  * Initial package release
+  * Support for mac ranges
+  * Fixes for running in containers
+  * Fixes for mac range network association
+  * Stability fixes and better transaction management
+
+ -- Ryan Goodfellow <ry@mergetb.org>  Mon, 03 Oct 2019 00:47:00 +0300

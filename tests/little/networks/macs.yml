@@ -1,0 +1,13 @@
+kind:         Network
+name:         macs
+subnet4:      10.0.0.0/24
+gateways:     [10.0.0.1]
+nameservers:  [10.0.0.1]
+dhcp4server:  10.0.0.1
+domain:       mini.net
+mac_range:
+  begin: 00:11:aa:00:00:00
+  end:   00:11:aa:ff:ff:ff
+range4:
+  begin: 10.0.0.100
+  end:   10.0.0.200

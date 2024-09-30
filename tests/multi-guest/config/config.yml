@@ -1,0 +1,5 @@
+---
+interface: eth1
+etcd:
+  host: db
+  port: 2379
